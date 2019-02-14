@@ -1,0 +1,90 @@
+*{
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'VT323', monospace;
+}
+body{
+    background: black;
+}
+h1{
+    color: white;
+    text-align: center;
+    margin: 20px;
+}
+.container{
+    max-width: 1000px;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    /* justify-content: space-between; */
+}
+.searching{
+    width: 150px;
+    margin:0 auto;
+}
+
+/* Diffrent styles of flex styles */
+.flexCenter{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;    
+}
+.flexSpaceAround{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+}
+.flexSpaceBetween{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+}
+
+.pokemon{
+    width: 300px;
+    background: rgba(255,255,255,.9);
+    height: 300px;
+    margin: 10px;
+    position: relative;
+    padding: 10px;
+    transition: all .5s;
+    cursor: pointer;
+}
+.pokemon:hover{
+    transform: scale(1.05)
+}
+img.mainImage{
+    width: 100px;
+}
+.allImages{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.allImages > img{
+    width: 50px;
+    cursor: pointer;
+}
+h2{
+    position: absolute;
+    top: 0;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.hoverAnimation{
+    animation: upAndDown 1s infinite;
+}
+
+@keyframes upAndDown{
+    0%{transform: translate(0,0)}
+    50%{transform: translate(0,-10px)}
+    100%{transform: translate(0,0)}
+}
