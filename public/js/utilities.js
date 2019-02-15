@@ -1,7 +1,7 @@
-// const app = document.querySelector('#root');
-// const container = document.createElement('div');
-// container.setAttribute('class', 'container');
-// app.appendChild(container);
+const app = document.querySelector('#root');
+const container = document.createElement('div');
+container.setAttribute('class', 'container');
+app.appendChild(container);
 
 export function makeObject(item){
     return {

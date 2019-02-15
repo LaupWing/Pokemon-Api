@@ -1,6 +1,6 @@
 import {makeObject} from "./customObject.js"
-import {addEvents, makeElements} from "../pageComponents/list.js"
-
+// import {addEvents, makeElements} from "../pageComponents/list.js"
+import {renderList, removingElements} from "../states.js"
 
 // Eerste intentie was om deze function de array terug te sturen zodat ik elements kon mkane met de opgehaalde data
 // Maar helaas stuurt een fetch of promise altijd een promise terug dus dien je daarna alsnog deze promise te resolven
@@ -28,8 +28,10 @@ function getData(){
                 Promise.all(jsons)
                     .then(data=>{
                         const array = data.map(pokemon=>makeObject(pokemon))
-                        array.forEach(item=>makeElements(item))
-                        addEvents()
+                        // array.forEach(item=>makeElements(item))
+                        // array =[]
+                        renderList(array)
+                        // addEvents()
                     })
             })
         })

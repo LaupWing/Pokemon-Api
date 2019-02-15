@@ -3,11 +3,12 @@
 // Make container to to populate the list of pokemons
 const app = document.querySelector('#root');
 const container = document.createElement('div');
-container.setAttribute('class', 'container');
+container.classList.add("container");
 app.appendChild(container);
 
 function makeElements(a){
-    var newElement = `
+    const container = document.querySelector(".container")
+    const newElement = `
         <div class="pokemon ${a.id} flexCenter">
             <h2>${a.name}</h2>
             <img class="mainImage" src="${a.defaultFront}"></img>
