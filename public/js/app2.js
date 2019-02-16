@@ -1,17 +1,31 @@
 // import { makeElements } from "./utilities";
+// window.addEventListener("hashchange", function(){
+//             console.log("Removing elements")
+//             render.removingElements()
+// })
 
 (function(){
-    // const router ={
-    //     overview: async function(){
-    //             const data = await api.getData(),
-        
-        
-    //     }
-    // }
-    const states = {
-        overviewArray:[],
-        statesAarray:[]
+    const router ={
+        overview: async function(){
+                const data = await api.getData()
+                render.renderContainer()
+                console.log(data)
+                data.forEach(item=>render.makeElements(item))
+                events.addEvents()
+        },
+        urlChange: window.addEventListener("hashchange", function(){
+            let id = window.location.hash.substr(1)
+            console.log("changing")
+            render.removingElements()
+            if(id===""){
+                this.overview()
+            }else{
+                api.getDataDetail(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                    .then(pokemon=>render.makeDetailElements(pokemon))
+            }
+        })
     }
+    
     const api={
         overviewUrl: "https://pokeapi.co/api/v2/pokemon",
         getData: function(url = this.overviewUrl){
@@ -30,17 +44,17 @@
                     const jsons = responses.map(res=>res.json())
                     return Promise.all(jsons)
                 })
-                .then(pokemons => api.overviewArray = pokemons.map(pokemon => api.parseData(pokemon)))
-                .then(x=>console.log(api.overviewArray))    
+                .then(pokemons => pokemons.map(pokemon => this.parseData(pokemon)))
+                 
         },
         getDataDetail: function(url){
             return fetch (url)
                 .then(data=> data.json())
-                .then(jsonData => console.log(jsonData))
+                .then(jsonData => jsonData)
         },
         parseData:function(item){
             return {
-                name: api.capatalize(item.name),
+                name: this.capatalize(item.name),
                 id: item.id,
                 defaultBack: item.sprites.back_default,
                 defaultFront: item.sprites.front_default,
@@ -55,8 +69,66 @@
 
     }
     const render={
-        	
+        renderContainer: function(){
+            const app = document.querySelector('#root');
+            const container = document.createElement('div');
+            container.classList.add("container");
+            app.appendChild(container);
+        },
+        container:function(){return document.querySelector(".container")},
+        removingElements:function(){
+            const a = document.querySelectorAll("a");
+            a.forEach(pokemon => pokemon.parentNode.removeChild(pokemon));
+        },
+        makeElements: function(pokemon){
+            const newElement = `
+                <a href="#${pokemon.id}">
+                    <div class="pokemon flexCenter">
+                        <h2>${pokemon.name}</h2>
+                        <img class="mainImage" src="${pokemon.defaultFront}"></img>
+                        <div class="allImages">
+                            <img src="${pokemon.defaultFront}">
+                            <img src="${pokemon.defaultBack}">
+                            <img src="${pokemon.shinyFront}">
+                            <img src="${pokemon.shinyBack}">
+                        </div>
+                    </div>
+                </a>
+                `
+            this.container().insertAdjacentHTML( 'beforeend', newElement )
+        },
+        makeDetailElements:function(pokemon){
+            console.log(pokemon)
+            const newElement = `
+                <div class="detailsContainer flexCenter">
+                    <h2 class="detailTitle">${api.capatalize(pokemon.name)}</h2>
+                    <img class="detail_mainImage" src="${pokemon.sprites.front_default}"></img>
+                </div>
+                `
+            console.log("adding elements")
+            this.container().insertAdjacentHTML( 'beforeend', newElement )
+        },
     }
-    api.getDataDetail("https://pokeapi.co/api/v2/pokemon/1")
-    console.log(api.getData())
+    const events = {
+        addEvents: function(){
+            render.container().querySelectorAll(".pokemon").forEach((i)=>{
+                i.addEventListener("mouseover", function(event){
+                    this.querySelector(".mainImage").classList.add("hoverAnimation")
+                })
+                i.addEventListener("mouseout", function(event){
+                    this.querySelector(".mainImage").classList.remove("hoverAnimation")
+                })
+            })      
+            render.container().querySelectorAll(".allImages img").forEach((i)=>{
+                i.addEventListener("mouseover", function(){
+                    this.parentNode.parentNode.querySelector(".mainImage").src = this.src
+                })
+                i.addEventListener("mouseout", function(){
+                    // document.querySelector(".mainImage").src = this.src
+                })
+            })
+        }
+     }
+
+    router.overview()
 }())

@@ -11,6 +11,9 @@ h1{
     text-align: center;
     margin: 20px;
 }
+a{
+    color: black;
+}
 .container{
     max-width: 1000px;
     display: flex;
@@ -71,12 +74,29 @@ img.mainImage{
     width: 50px;
     cursor: pointer;
 }
+.detailsContainer{
+    position: relative;
+    color: white;
+    background: white;
+    width: 400px;
+    height: 400px;
+    margin:50px auto;   
+}
 h2{
     position: absolute;
     top: 0;
     text-align: center;
     width: 100%;
     padding: 10px;
+}
+
+/* Detail page */
+h2.detailTitle{
+    width: 100%;
+    background: rgba(0,0,0,.5);
+}
+.detail_mainImage{
+    width: 150px;
 }
 
 .hoverAnimation{
