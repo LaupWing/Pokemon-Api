@@ -3,17 +3,16 @@
         overview: async function(){
                 const data = await api.getData()
                 render.renderContainer()
-                console.log(data)
+                render.removingElements()
                 data.forEach(item=>render.makeElements(item))
                 events.addEvents()
         },
         urlChange: window.addEventListener("hashchange", function(){
             let id = window.location.hash.substr(1)
-            render.removingElements()
             if(id===""){
-                this.overview()
+                router.overview()
             }else{
-                api.getDataDetail(`https://pokeapi.co/api/v2/pokemon/${id}`)
+                api.getDataDetail(id)
                     .then(pokemon=>render.makeDetailElements(pokemon))
             }
         })
@@ -40,14 +39,18 @@
                 .then(pokemons => pokemons.map(pokemon => this.parseData(pokemon)))
                  
         },
-        getDataDetail: function(url){
-            return fetch (url)
-                .then(data=> data.json())
+        getDataDetail: function(pokemon){
+            return fetch (`${this.overviewUrl}/${pokemon}`)
+                .then((response)=>{ 
+                    if(response.status === 404){
+                        render.noPokemonsFound(pokemon)
+                    }
+                    return response.json()
+                })
                 .then(jsonData => jsonData)
         },
         getBgImage: function(){
-            console.log("check")
-            fetch("https://source.unsplash.com/1600x900?nature,dark")
+            fetch("https://source.unsplash.com/1600x900?nature,dark ")
                 .then(response=>{
                     document.body.style.background =`url(${response.url})`
                 })
@@ -77,8 +80,16 @@
         },
         container:function(){return document.querySelector(".container")},
         removingElements:function(){
-            const a = document.querySelectorAll("a");
-            a.forEach(pokemon => pokemon.parentNode.removeChild(pokemon));
+            const container = document.querySelector(".container")
+            // Hieronder is veel betere manier om child elementen van de container te verwijderen
+            // De manier onder de while loop is alleen specifiek gericht op de a elemententjes
+            // Door de container te pakken en tekijken of er een child in zit is dit veel modulairder
+            // Want nu maakt het niet uit wat voor element in de container zit.
+            while(container.firstChild){
+                container.removeChild(container.firstChild)
+            }
+            // const a = document.querySelectorAll("a");
+            // a.forEach(pokemon => pokemon.parentNode.removeChild(pokemon));
         },
         makeElements: function(pokemon){
             const newElement = `
@@ -99,15 +110,24 @@
         },
         makeDetailElements:function(pokemon){
             console.log(pokemon)
+            render.removingElements()
             const newElement = `
                 <div class="detailsContainer flexCenter">
                     <h2 class="detailTitle">${api.capatalize(pokemon.name)}</h2>
                     <img class="detail_mainImage" src="${pokemon.sprites.front_default}"></img>
                 </div>
                 `
-            console.log("adding elements")
             this.container().insertAdjacentHTML( 'beforeend', newElement )
         },
+        noPokemonsFound: function(value){
+            render.removingElements()
+            const newElement = `
+                <div class="error flexCenter">
+                    <h2 class="error-title">Nothing found with the search term "${value}"</h2>
+                </div>
+                `
+            this.container().insertAdjacentHTML( 'beforeend', newElement )
+        }   
     }
     const events = {
         addEvents: function(){
@@ -128,8 +148,9 @@
                 })
             })
         },
-        searching: document.querySelector(".searching").addEventListener("input",function(){
-            console.log("checking")
+        submitBtn: document.querySelector(".submit").addEventListener("click", async function(){
+            const results = await api.getDataDetail(document.querySelector(".searching").value)
+            console.log(results)
         })
      }
     router.overview()

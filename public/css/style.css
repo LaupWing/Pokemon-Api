@@ -51,7 +51,7 @@ a{
 
 .pokemon{
     width: 300px;
-    background: rgba(255,255,255,.9);
+    background: rgba(255,255,255,.5);
     height: 300px;
     margin: 10px;
     position: relative;
@@ -60,7 +60,8 @@ a{
     cursor: pointer;
 }
 .pokemon:hover{
-    transform: scale(1.05)
+    transform: scale(1.05);
+    background: rgba(255,255,255,.9);
 }
 img.mainImage{
     width: 100px;
@@ -105,6 +106,19 @@ h2.detailTitle{
 .hoverAnimation{
     animation: upAndDown 1s infinite;
 }
+
+/* Error Page */
+.error{
+    color: red;
+    width: 500px;
+    height: 100px;
+    background: rgba(255,255,255,.9);
+    margin: 20px;
+}
+.error h2{
+    position: relative;
+}
+
 
 @keyframes upAndDown{
     0%{transform: translate(0,0)}
