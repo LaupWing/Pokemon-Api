@@ -1,9 +1,3 @@
-// import { makeElements } from "./utilities";
-// window.addEventListener("hashchange", function(){
-//             console.log("Removing elements")
-//             render.removingElements()
-// })
-
 (function(){
     const router ={
         overview: async function(){
@@ -15,7 +9,6 @@
         },
         urlChange: window.addEventListener("hashchange", function(){
             let id = window.location.hash.substr(1)
-            console.log("changing")
             render.removingElements()
             if(id===""){
                 this.overview()
@@ -51,6 +44,13 @@
             return fetch (url)
                 .then(data=> data.json())
                 .then(jsonData => jsonData)
+        },
+        getBgImage: function(){
+            console.log("check")
+            fetch("https://source.unsplash.com/1600x900?nature,dark")
+                .then(response=>{
+                    document.body.style.background =`url(${response.url})`
+                })
         },
         parseData:function(item){
             return {
@@ -127,8 +127,11 @@
                     // document.querySelector(".mainImage").src = this.src
                 })
             })
-        }
+        },
+        searching: document.querySelector(".searching").addEventListener("input",function(){
+            console.log("checking")
+        })
      }
-
     router.overview()
+    api.getBgImage()
 }())

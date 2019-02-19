@@ -4,7 +4,10 @@
     font-family: 'VT323', monospace;
 }
 body{
-    background: black;
+    background-position: center!important;
+    background-attachment: fixed!important;
+    background-repeat: no-repeat!important;
+    background-size: cover!important;
 }
 h1{
     color: white;
