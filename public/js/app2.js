@@ -50,7 +50,7 @@
                 .then(jsonData => jsonData)
         },
         getBgImage: function(){
-            fetch("https://source.unsplash.com/1600x900?nature,dark ")
+            fetch("https://source.unsplash.com/1600x900?nature")
                 .then(response=>{
                     document.body.style.background =`url(${response.url})`
                 })
@@ -150,7 +150,7 @@
         },
         submitBtn: document.querySelector(".submit").addEventListener("click", async function(){
             const results = await api.getDataDetail(document.querySelector(".searching").value)
-            console.log(results)
+            render.makeDetailElements(results)
         })
      }
     router.overview()

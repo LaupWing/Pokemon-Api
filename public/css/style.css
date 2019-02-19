@@ -13,6 +13,8 @@ h1{
     color: white;
     text-align: center;
     margin: 20px;
+    background: rgba(0,0,0,.5);
+    padding:10px 20px;
 }
 a{
     color: black;
@@ -61,7 +63,7 @@ a{
 }
 .pokemon:hover{
     transform: scale(1.05);
-    background: rgba(255,255,255,.9);
+    background: rgba(255,255,255,.95);
 }
 img.mainImage{
     width: 100px;
