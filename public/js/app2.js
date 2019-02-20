@@ -85,13 +85,13 @@
                 })
         },
         betweenNumberPokemons:function(min, max){
+        // Vraagje aan docent (of wouter(beter wouter))
+        // Je kan ook ook in de for loop alle data fetchen, waarom in een array stoppen om vervolgens Promise.all te gebruiken?
             console.log(min,max, "uitgevoerd")
-            // for (let index = min; index < max; index++) {
-            //     console.log(index)
-            //     // fetch(index)
-            //     //     .then(data=>data.json)
-            //     //     .then(json=>console.log(json))
-            // }
+            for (let index = min; index < max; index++) {
+                api.getDataDetail(index)
+                    .then(data=>console.log(data))
+            }
         }
 
     }
