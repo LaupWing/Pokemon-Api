@@ -96,6 +96,16 @@ h2{
     padding: 10px;
 }
 
+/* Filter styling */
+.range{
+    width: 80%;
+    background: rgba(255,255,255,.5);
+    display: flex;
+    padding: 20px;
+    margin: auto;
+    justify-content: space-between;
+}
+
 /* Detail page */
 h2.detailTitle{
     width: 100%;

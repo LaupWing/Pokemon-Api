@@ -68,6 +68,30 @@
         },
         capatalize: function(word){
                 return word[0].toUpperCase()+word.slice(1)      
+        },
+        randomPokemons: function(){
+            const randomNumbers =[]
+            for (let index = 0; index < 20; index++) {
+                const random = Math.floor(Math.random()*802)+1
+                randomNumbers.push(random)
+            }
+            const results = randomNumbers.map(random=>this.getDataDetail(random))
+            Promise.all(results)
+                .then(pokemon=>{
+                    render.removingElements()
+                    const randomPokemonArray = pokemon.map(pokemon=>this.parseData(pokemon))
+                    randomPokemonArray.forEach(pokemon=>render.makeElements(pokemon))
+                    events.addEvents()
+                })
+        },
+        betweenNumberPokemons:function(min, max){
+            console.log(min,max, "uitgevoerd")
+            // for (let index = min; index < max; index++) {
+            //     console.log(index)
+            //     // fetch(index)
+            //     //     .then(data=>data.json)
+            //     //     .then(json=>console.log(json))
+            // }
         }
 
     }
@@ -151,7 +175,35 @@
         submitBtn: document.querySelector(".submit").addEventListener("click", async function(){
             const results = await api.getDataDetail(document.querySelector(".searching").value)
             render.makeDetailElements(results)
-        })
+        }),
+        randomizeBtn: document.querySelector(".random").addEventListener("click", async function(){
+            api.randomPokemons()
+        }),
+        inputValue:document.querySelector(".submitRange").addEventListener("click",function(){
+            // Moest echt aangeven dat het nummer was anders deed die raar.
+            const minValue = Number(document.querySelector(".minNumber").value)
+            const maxValue = Number(document.querySelector(".maxNumber").value)
+            events.checkLimit(minValue, maxValue, api.betweenNumberPokemons)
+        }),
+        checkLimit: function(min, max, action){
+            if(min <1 ){
+                console.log("to low")
+                return
+            }
+            if(max >= 802 ){
+                console.log("to high")
+                return
+            }
+            if(max - min > 100){
+                console.log("maximum fetch is 100 pokemons")
+                return
+            }
+            if(max < min){
+                console.log("Mininum is higher than maximum")
+                return
+            }
+            action(min,max)
+        }
      }
     router.overview()
     api.getBgImage()
