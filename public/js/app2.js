@@ -6,6 +6,15 @@
 // Second Renderfunctions accepting array's
 (function(){
     const routes ={
+        landingpage: function(){
+            if(window.location.hash === ""){
+                console.log("Overview landingpage")
+                routes.overviewLocalStorageCheck()
+            }else{
+                console.log("Detail landingpage")
+                routes.detailLocalStorageCheck()
+            }
+        },
         detailLocalStorageCheck:function(){
             routes.localStorageCheck(app.states.details, routes.detailLocalstorage, routes.detailFetch)
         },
@@ -76,15 +85,9 @@
         location: function(){
             api.getBgImage()
             render.renderContainer()
-            if(window.location.hash === ""){
-                console.log("Overview landingpage")
-                routes.overviewLocalStorageCheck()
-            }else{
-                console.log("Detail landingpage")
-                routes.detailLocalStorageCheck()
-            }
+            routes.landingpage()
         },
-        urlChange: window.addEventListener("hashchange", routes.detailLocalStorageCheck)
+        urlChange: window.addEventListener("hashchange", routes.landingpage)
     }
     
     const api={
@@ -107,11 +110,10 @@
                 })
                 .then(pokemons => {
                     const pokemonArray = pokemons.map(pokemon => this.parseData(pokemon))
+                    console.log(pokemonArray)
                     localStorage.setItem("overview", JSON.stringify(pokemonArray))
                     return pokemonArray
-                })
-                // .then(pokemonArray => console.log(pokemonArray))
-                 
+                })        
         },
         getDataDetail: function(pokemon){
             return fetch (`${this.overviewUrl}/${pokemon}`)
@@ -125,7 +127,6 @@
                     const array = (app.states.details) ? app.states.details : [];
                     array.push(jsonData)
                     localStorage.setItem("details", JSON.stringify(array))
-                    // console.log(localStorage.getItem("details"))
                     return jsonData
                 })
         },
@@ -136,15 +137,28 @@
                 })
         },
         parseData:function(item){
+            api.checkImageAvailability(item.sprites.back_default)
             return {
                 name: this.capatalize(item.name),
                 id: item.id,
-                defaultBack: item.sprites.back_default,
-                defaultFront: item.sprites.front_default,
-                shinyFront: item.sprites.front_shiny,
-                shinyBack: item.sprites.back_shiny,
-                type: item.types.map(type=>type.type.name)
+                defaultBack: api.checkImageAvailability(item.sprites.back_default),
+                defaultFront: api.checkImageAvailability(item.sprites.front_default),
+                shinyFront: api.checkImageAvailability(item.sprites.front_shiny),
+                shinyBack: api.checkImageAvailability(item.sprites.back_shiny),
+                type: item.types.map(type=>type.type.name),
+                weight: item.weight,
+                stats: item.stats.map(stat=>{
+                    return {
+                       statName: stat.stat.name,
+                       baseStat: stat.base_stat  
+                    }})
             }
+        },
+        checkImageAvailability(image){
+            if(image){
+                return image
+            }
+            return ""
         },
         capatalize: function(word){
                 return word[0].toUpperCase()+word.slice(1)      
@@ -289,5 +303,6 @@
             action(min,max)
         }
      }
+    localStorage.clear()
     app.init()
 }())
