@@ -85,13 +85,32 @@
                 })
         },
         betweenNumberPokemons:function(min, max){
-        // Vraagje aan docent (of wouter(beter wouter))
-        // Je kan ook ook in de for loop alle data fetchen, waarom in een array stoppen om vervolgens Promise.all te gebruiken?
+            // Vraagje aan docent (of wouter(beter wouter))
+            // Je kan ook ook in de for loop alle data fetchen, waarom in een array stoppen om vervolgens Promise.all te gebruiken?
+            // Gokje(Chainen werkt dan niet zoals het hoort. hieronder heb ik een addEvents functie maar die word eerder uitgevoerd omdat de api call eventjes duurt)
             console.log(min,max, "uitgevoerd")
+            // render.removingElements()
+            // for (let index = min; index < max; index++) {
+            //     api.getDataDetail(index)
+            //         .then(data=>render.makeElements(api.parseData(data)))
+            // }
+            // events.addEvents()
+            // 
+
+
+            // Is er nog een kortere manier om deze for loop te fixen?
+            const promiseArray = []
             for (let index = min; index < max; index++) {
-                api.getDataDetail(index)
-                    .then(data=>console.log(data))
+                promiseArray.push(api.getDataDetail(index))
             }
+            Promise.all(promiseArray)
+                .then(pokemons=>{
+                    render.removingElements()
+                    pokemons.forEach(pokemon=>{
+                        render.makeElements(api.parseData(pokemon))
+                    })
+                    events.addEvents()
+                })
         }
 
     }
@@ -155,11 +174,12 @@
     }
     const events = {
         addEvents: function(){
+            console.log("adding events")
             render.container().querySelectorAll(".pokemon").forEach((i)=>{
-                i.addEventListener("mouseover", function(event){
+                i.addEventListener("mouseover", function(){
                     this.querySelector(".mainImage").classList.add("hoverAnimation")
                 })
-                i.addEventListener("mouseout", function(event){
+                i.addEventListener("mouseout", function(){
                     this.querySelector(".mainImage").classList.remove("hoverAnimation")
                 })
             })      
