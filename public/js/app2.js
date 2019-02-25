@@ -8,14 +8,32 @@
                 events.addEvents()
         },
         detail: function(){
-            let id = window.location.hash.substr(1)
-            if(id===""){
-                routes.overview()
-            }else{
+            routes.localStorageCheck(app.states.details, function(){
+                
+            },
+            function(){
+                let id = window.location.hash.substr(1)
                 api.getDataDetail(id)
                     .then(pokemon=>render.makeDetailElements(pokemon))
+            })
+            // let id = window.location.hash.substr(1)
+            // if(id===""){
+            //     routes.overview()
+            // }else{
+                // api.getDataDetail(id)
+                //     .then(pokemon=>render.makeDetailElements(pokemon))
+            // }
+        },
+        localStorageCheck:function(storage, callbackStorageExist, callbackDoesntStorageExist){
+            if(storage){
+                console.log("LocalStorage exist")
+                callbackStorageExist()
+            }else{
+                console.log("LocalStorage doesn't exist")
+                callbackDoesntStorageExist()
             }
-        }
+        },
+        
     }
 
     const app = { 
@@ -32,15 +50,16 @@
     const router = { 
         location: function(){
             if(window.location.hash === ""){
-                console.log("Overviewpagina")
-                if(app.states.overview){
-                    console.log("LocalStorage aanwezig")
-                    render.renderContainer()
-                    app.states.overview.forEach((pokemon)=>render.makeElements(pokemon))
-                }else{
-                    console.log("LocalStorage niet aanwezig")
+                // console.log("Overviewpagina")
+                // if(app.states.overview){
+                //     console.log("LocalStorage aanwezig")
+                //     render.renderContainer()
+                //     app.states.overview.forEach((pokemon)=>render.makeElements(pokemon))
+                //     events.addEvents()
+                // }else{
+                //     console.log("LocalStorage niet aanwezig")
                     routes.overview()
-                }
+                // }
             }else{
                 if(app.states.details){
                     console.log("Detail aanwezig in LocalStorage")
