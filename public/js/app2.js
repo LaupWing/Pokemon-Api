@@ -1,47 +1,50 @@
+// Object literal Style programming
+// This code below has to be converted to modules after it is finished
+// TODO The make elements functions accepts a singel array item now.
+// Change that to accepting array's
+// First thing to-do = Converting to modules
+// Second Renderfunctions accepting array's
 (function(){
     const routes ={
-        overview: async function(){
-                const data = await api.getData()
-                render.renderContainer()
-                render.removingElements()
-                data.forEach(item=>render.makeElements(item))
-                events.addEvents()
+        detailLocalStorageCheck:function(){
+            routes.localStorageCheck(app.states.details, routes.detailLocalstorage, routes.detailFetch)
         },
-        detailRoute:function(){
-            localStorageCheck(app.states.details, detailLocalstorage, detailFetch)
+        overviewLocalStorageCheck:function(){
+            routes.localStorageCheck(app.states.overview, routes.overviewLocalstorage, routes.overviewFetch)
         },
-        detail: function(){
-            // routes.localStorageCheck(app.states.details, function(){
-
-            // },
-            // function(){
-                let id = window.location.hash.substr(1)
-                api.getDataDetail(id)
-                    .then(pokemon=>render.makeDetailElements(pokemon))
-            // })
-            // let id = window.location.hash.substr(1)
-            // if(id===""){
-            //     routes.overview()
-            // }else{
-                // api.getDataDetail(id)
-                //     .then(pokemon=>render.makeDetailElements(pokemon))
-            // }
+        overviewFetch: async function(){
+            console.log("Overview by fetching, LocalStorage doesn't exist")
+            const data = await api.getData()
+            render.removingElements()
+            data.forEach(item=>render.makeElements(item))
+            events.addEvents()
+        },
+        overviewLocalstorage:function(){
+            console.log("Overview by localhost, LocalStorage exist")
+            const array = app.states.overview
+            array.forEach((pokemon)=>render.makeElements(pokemon))
+            events.addEvents()
         },
         detailLocalstorage:function(){
             const array = app.states.details
-            const pokemonDetail = array.find(function(pokemon){return pokemon.id === window.location.hash.substr(1)})
+            console.log("Checking if pokemon ID excist in the LocalStorage...")
+            const pokemonDetail = array.find(function(pokemon){
+                return pokemon.id === Number(window.location.hash.substr(1))
+            })
+            console.log(pokemonDetail)
             if(pokemonDetail){
+                console.log("Id is available")
                 render.makeDetailElements(pokemonDetail)
             }else{
+                console.log("No id in the array")
                 routes.detailFetch()
             }
             array.forEach(pokemon=>{
                 pokemon.id === window.location.hash.substr(1)
             })
-            // if()
-            // app.states.details.forEach()
         },
         detailFetch:function(){
+            console.log("Fetchig detail data")
             let id = window.location.hash.substr(1)
             api.getDataDetail(id)
                 .then(pokemon=>render.makeDetailElements(pokemon))
@@ -71,34 +74,17 @@
 
     const router = { 
         location: function(){
+            api.getBgImage()
+            render.renderContainer()
             if(window.location.hash === ""){
-                // console.log("Overviewpagina")
-                // if(app.states.overview){
-                //     console.log("LocalStorage aanwezig")
-                //     render.renderContainer()
-                //     app.states.overview.forEach((pokemon)=>render.makeElements(pokemon))
-                //     events.addEvents()
-                // }else{
-                //     console.log("LocalStorage niet aanwezig")
-                    routes.overview()
-                // }
+                console.log("Overview landingpage")
+                routes.overviewLocalStorageCheck()
             }else{
-                if(app.states.details){
-                    console.log("Detail aanwezig in LocalStorage")
-                    
-                }
-                console.log(app.states.details)
-                // cons
-                // console.log("Detailpagina")
-                // if(overview){
-                    render.renderContainer()
-                    routes.detail()
-                // }else{
-
-                // }
+                console.log("Detail landingpage")
+                routes.detailLocalStorageCheck()
             }
         },
-        urlChange: window.addEventListener("hashchange", routes.detail)
+        urlChange: window.addEventListener("hashchange", routes.detailLocalStorageCheck)
     }
     
     const api={
@@ -179,20 +165,6 @@
                 })
         },
         betweenNumberPokemons:function(min, max){
-            // Vraagje aan docent (of wouter(beter wouter))
-            // Je kan ook ook in de for loop alle data fetchen, waarom in een array stoppen om vervolgens Promise.all te gebruiken?
-            // Gokje(Chainen werkt dan niet zoals het hoort. hieronder heb ik een addEvents functie maar die word eerder uitgevoerd omdat de api call eventjes duurt)
-            console.log(min,max, "uitgevoerd")
-            // render.removingElements()
-            // for (let index = min; index < max; index++) {
-            //     api.getDataDetail(index)
-            //         .then(data=>render.makeElements(api.parseData(data)))
-            // }
-            // events.addEvents()
-            // 
-
-
-            // Is er nog een kortere manier om deze for loop te fixen?
             const promiseArray = []
             for (let index = min; index < max; index++) {
                 promiseArray.push(api.getDataDetail(index))
@@ -317,9 +289,5 @@
             action(min,max)
         }
      }
-     localStorage.clear()
-    // routes.overview()
-    // console.log(JSON.parse(app.states.overview))
-    api.getBgImage()
     app.init()
 }())
