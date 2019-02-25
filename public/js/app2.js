@@ -7,6 +7,7 @@
 (function(){
     const routes ={
         landingpage: function(){
+            render.removingElements()
             if(window.location.hash === ""){
                 console.log("Overview landingpage")
                 routes.overviewLocalStorageCheck()
@@ -24,7 +25,6 @@
         overviewFetch: async function(){
             console.log("Overview by fetching, LocalStorage doesn't exist")
             const data = await api.getData()
-            render.removingElements()
             data.forEach(item=>render.makeElements(item))
             events.addEvents()
         },
@@ -55,7 +55,7 @@
         detailFetch:function(){
             console.log("Fetchig detail data")
             let id = window.location.hash.substr(1)
-            api.getDataDetail(id)
+            api.getDataDetail(id, true)
                 .then(pokemon=>render.makeDetailElements(pokemon))
         },
         localStorageCheck:function(storage, callbackStorageExist, callbackDoesntStorageExist){
@@ -115,7 +115,7 @@
                     return pokemonArray
                 })        
         },
-        getDataDetail: function(pokemon){
+        getDataDetail: function(pokemon, storage){
             return fetch (`${this.overviewUrl}/${pokemon}`)
                 .then((response)=>{ 
                     if(response.status === 404){
@@ -124,9 +124,12 @@
                     return response.json()
                 })
                 .then(jsonData => {
-                    const array = (app.states.details) ? app.states.details : [];
-                    array.push(jsonData)
-                    localStorage.setItem("details", JSON.stringify(array))
+                    console.log("Saving it in localstorage= ", storage)
+                    if(storage){
+                        const array = (app.states.details) ? app.states.details : [];
+                        array.push(jsonData)  
+                        localStorage.setItem("details", JSON.stringify(array))
+                    }
                     return jsonData
                 })
         },
@@ -169,7 +172,7 @@
                 const random = Math.floor(Math.random()*802)+1
                 randomNumbers.push(random)
             }
-            const results = randomNumbers.map(random=>this.getDataDetail(random))
+            const results = randomNumbers.map(random=>this.getDataDetail(random, false))
             Promise.all(results)
                 .then(pokemon=>{
                     render.removingElements()
@@ -181,7 +184,7 @@
         betweenNumberPokemons:function(min, max){
             const promiseArray = []
             for (let index = min; index < max; index++) {
-                promiseArray.push(api.getDataDetail(index))
+                promiseArray.push(api.getDataDetail(index, false))
             }
             Promise.all(promiseArray)
                 .then(pokemons=>{
@@ -232,7 +235,6 @@
             this.container().insertAdjacentHTML( 'beforeend', newElement )
         },
         makeDetailElements:function(pokemon){
-            render.removingElements()
             const newElement = `
                 <div class="detailsContainer flexCenter">
                     <h2 class="detailTitle">${api.capatalize(pokemon.name)}</h2>
@@ -272,7 +274,9 @@
             })
         },
         submitBtn: document.querySelector(".submit").addEventListener("click", async function(){
-            const results = await api.getDataDetail(document.querySelector(".searching").value)
+            const results = await api.getDataDetail(document.querySelector(".searching").value, true)
+            render.removingElements()
+            console.log(results)
             render.makeDetailElements(results)
         }),
         randomizeBtn: document.querySelector(".random").addEventListener("click", async function(){
