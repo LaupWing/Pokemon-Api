@@ -1,5 +1,5 @@
 (function(){
-    const router ={
+    const routes ={
         overview: async function(){
                 const data = await api.getData()
                 render.renderContainer()
@@ -7,15 +7,57 @@
                 data.forEach(item=>render.makeElements(item))
                 events.addEvents()
         },
-        urlChange: window.addEventListener("hashchange", function(){
+        detail: function(){
             let id = window.location.hash.substr(1)
             if(id===""){
-                router.overview()
+                routes.overview()
             }else{
                 api.getDataDetail(id)
                     .then(pokemon=>render.makeDetailElements(pokemon))
             }
-        })
+        }
+    }
+
+    const app = { 
+        init: function(){
+            router.location()
+        },
+        states:{
+            overview: JSON.parse(localStorage.getItem("overview")),
+            details: JSON.parse(localStorage.getItem("details")),
+            currentDataset:[]
+        }
+    }
+
+    const router = { 
+        location: function(){
+            if(window.location.hash === ""){
+                console.log("Overviewpagina")
+                if(app.states.overview){
+                    console.log("LocalStorage aanwezig")
+                    render.renderContainer()
+                    app.states.overview.forEach((pokemon)=>render.makeElements(pokemon))
+                }else{
+                    console.log("LocalStorage niet aanwezig")
+                    routes.overview()
+                }
+            }else{
+                if(app.states.details){
+                    console.log("Detail aanwezig in LocalStorage")
+                    
+                }
+                console.log(app.states.details)
+                // cons
+                // console.log("Detailpagina")
+                // if(overview){
+                    render.renderContainer()
+                    routes.detail()
+                // }else{
+
+                // }
+            }
+        },
+        urlChange: window.addEventListener("hashchange", routes.detail)
     }
     
     const api={
@@ -36,7 +78,12 @@
                     const jsons = responses.map(res=>res.json())
                     return Promise.all(jsons)
                 })
-                .then(pokemons => pokemons.map(pokemon => this.parseData(pokemon)))
+                .then(pokemons => {
+                    const pokemonArray = pokemons.map(pokemon => this.parseData(pokemon))
+                    localStorage.setItem("overview", JSON.stringify(pokemonArray))
+                    return pokemonArray
+                })
+                // .then(pokemonArray => console.log(pokemonArray))
                  
         },
         getDataDetail: function(pokemon){
@@ -47,7 +94,11 @@
                     }
                     return response.json()
                 })
-                .then(jsonData => jsonData)
+                .then(jsonData => {
+                    localStorage.setItem("details", JSON.stringify(jsonData))
+                    console.log(jsonData)
+                    return jsonData
+                })
         },
         getBgImage: function(){
             fetch("https://source.unsplash.com/1600x900?nature")
@@ -152,7 +203,6 @@
             this.container().insertAdjacentHTML( 'beforeend', newElement )
         },
         makeDetailElements:function(pokemon){
-            console.log(pokemon)
             render.removingElements()
             const newElement = `
                 <div class="detailsContainer flexCenter">
@@ -200,7 +250,6 @@
             api.randomPokemons()
         }),
         inputValue:document.querySelector(".submitRange").addEventListener("click",function(){
-            // Moest echt aangeven dat het nummer was anders deed die raar.
             const minValue = Number(document.querySelector(".minNumber").value)
             const maxValue = Number(document.querySelector(".maxNumber").value)
             events.checkLimit(minValue, maxValue, api.betweenNumberPokemons)
@@ -225,6 +274,9 @@
             action(min,max)
         }
      }
-    router.overview()
+     localStorage.clear()
+    // routes.overview()
+    // console.log(JSON.parse(app.states.overview))
     api.getBgImage()
+    app.init()
 }())

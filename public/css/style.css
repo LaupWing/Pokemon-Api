@@ -4,10 +4,11 @@
     font-family: 'VT323', monospace;
 }
 body{
-    background-position: center!important;
-    background-attachment: fixed!important;
-    background-repeat: no-repeat!important;
-    background-size: cover!important;
+    /* background: url("https://source.unsplash.com/1600x900?nature"); */
+    background-position: center !important;
+    background-attachment: fixed !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
 }
 h1{
     color: white;
