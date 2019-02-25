@@ -7,15 +7,18 @@
                 data.forEach(item=>render.makeElements(item))
                 events.addEvents()
         },
+        detailRoute:function(){
+            localStorageCheck(app.states.details, detailLocalstorage, detailFetch)
+        },
         detail: function(){
-            routes.localStorageCheck(app.states.details, function(){
-                
-            },
-            function(){
+            // routes.localStorageCheck(app.states.details, function(){
+
+            // },
+            // function(){
                 let id = window.location.hash.substr(1)
                 api.getDataDetail(id)
                     .then(pokemon=>render.makeDetailElements(pokemon))
-            })
+            // })
             // let id = window.location.hash.substr(1)
             // if(id===""){
             //     routes.overview()
@@ -23,6 +26,25 @@
                 // api.getDataDetail(id)
                 //     .then(pokemon=>render.makeDetailElements(pokemon))
             // }
+        },
+        detailLocalstorage:function(){
+            const array = app.states.details
+            const pokemonDetail = array.find(function(pokemon){return pokemon.id === window.location.hash.substr(1)})
+            if(pokemonDetail){
+                render.makeDetailElements(pokemonDetail)
+            }else{
+                routes.detailFetch()
+            }
+            array.forEach(pokemon=>{
+                pokemon.id === window.location.hash.substr(1)
+            })
+            // if()
+            // app.states.details.forEach()
+        },
+        detailFetch:function(){
+            let id = window.location.hash.substr(1)
+            api.getDataDetail(id)
+                .then(pokemon=>render.makeDetailElements(pokemon))
         },
         localStorageCheck:function(storage, callbackStorageExist, callbackDoesntStorageExist){
             if(storage){
@@ -114,8 +136,10 @@
                     return response.json()
                 })
                 .then(jsonData => {
-                    localStorage.setItem("details", JSON.stringify(jsonData))
-                    console.log(jsonData)
+                    const array = (app.states.details) ? app.states.details : [];
+                    array.push(jsonData)
+                    localStorage.setItem("details", JSON.stringify(array))
+                    // console.log(localStorage.getItem("details"))
                     return jsonData
                 })
         },
