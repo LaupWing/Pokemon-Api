@@ -1,4 +1,5 @@
 # ToDo
+f
 Best practices for this project
 - [] Destructering toepassen
 - [] Splice, Trim, toepassen
