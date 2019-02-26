@@ -4,6 +4,9 @@
 // Change that to accepting array's
 // First thing to-do = Converting to modules
 // Second Renderfunctions accepting array's
+// 
+// 
+// 
 (function(){
     const routes ={
         landingpage: function(){
@@ -83,7 +86,6 @@
 
     const router = { 
         location: function(){
-            api.getBgImage()
             render.renderContainer()
             routes.landingpage()
         },
@@ -307,6 +309,7 @@
             action(min,max)
         }
      }
+    api.getBgImage()
     localStorage.clear()
     app.init()
 }())
