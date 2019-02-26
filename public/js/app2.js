@@ -1,3 +1,4 @@
+'use strict'
 // Object literal Style programming
 // This code below has to be converted to modules after it is finished
 // TODO The make elements functions accepts a singel array item now.
@@ -5,12 +6,9 @@
 // First thing to-do = Converting to modules
 // Second Renderfunctions accepting array's
 // 
-// 
-// 
 (function(){
     const routes ={
         landingpage: function(){
-            render.removingElements()
             if(window.location.hash === ""){
                 console.log("Overview landingpage")
                 routes.overviewLocalStorageCheck()
@@ -28,14 +26,12 @@
         overviewFetch: async function(){
             console.log("Overview by fetching, LocalStorage doesn't exist")
             const data = await api.getData()
-            data.forEach(item=>render.makeElements(item))
-            events.addEvents()
+            render.makeElements(data)
         },
         overviewLocalstorage:function(){
             console.log("Overview by localhost, LocalStorage exist")
             const array = app.states.overview
-            array.forEach((pokemon)=>render.makeElements(pokemon))
-            events.addEvents()
+            render.makeElements(array)
         },
         detailLocalstorage:function(){
             const array = app.states.details
@@ -166,7 +162,7 @@
             return ""
         },
         capatalize: function(word){
-                return word[0].toUpperCase()+word.slice(1)      
+                return word[0].toUpperCase()+word.slice(1)   
         },
         randomPokemons: function(){
             const randomNumbers =[]
@@ -177,10 +173,8 @@
             const results = randomNumbers.map(random=>this.getDataDetail(random, false))
             Promise.all(results)
                 .then(pokemon=>{
-                    render.removingElements()
                     const randomPokemonArray = pokemon.map(pokemon=>this.parseData(pokemon))
-                    randomPokemonArray.forEach(pokemon=>render.makeElements(pokemon))
-                    events.addEvents()
+                    render.makeElements(randomPokemonArray)
                 })
         },
         betweenNumberPokemons:function(min, max){
@@ -190,11 +184,8 @@
             }
             Promise.all(promiseArray)
                 .then(pokemons=>{
-                    render.removingElements()
-                    pokemons.forEach(pokemon=>{
-                        render.makeElements(api.parseData(pokemon))
-                    })
-                    events.addEvents()
+                    const array = pokemons.map(pokemon=>api.parseData(pokemon))
+                    render.makeElements(array)
                 })
         }
 
@@ -219,24 +210,29 @@
             // const a = document.querySelectorAll("a");
             // a.forEach(pokemon => pokemon.parentNode.removeChild(pokemon));
         },
-        makeElements: function(pokemon){
-            const newElement = `
-                <a href="#${pokemon.id}">
-                    <div class="pokemon flexCenter">
-                        <h2>${pokemon.name}</h2>
-                        <img class="mainImage" src="${pokemon.defaultFront}"></img>
-                        <div class="allImages">
-                            <img src="${pokemon.defaultFront}">
-                            <img src="${pokemon.defaultBack}">
-                            <img src="${pokemon.shinyFront}">
-                            <img src="${pokemon.shinyBack}">
+        makeElements: function(array){
+            render.removingElements()
+            array.forEach(pokemon=>{
+                const newElement = `
+                    <a href="#${pokemon.id}">
+                        <div class="pokemon flexCenter">
+                            <h2>${pokemon.name}</h2>
+                            <img class="mainImage" src="${pokemon.defaultFront}"></img>
+                            <div class="allImages">
+                                <img src="${pokemon.defaultFront}">
+                                <img src="${pokemon.defaultBack}">
+                                <img src="${pokemon.shinyFront}">
+                                <img src="${pokemon.shinyBack}">
+                            </div>
                         </div>
-                    </div>
-                </a>
-                `
-            this.container().insertAdjacentHTML( 'beforeend', newElement )
+                    </a>
+                    `
+                this.container().insertAdjacentHTML( 'beforeend', newElement )
+            })
+            events.addEvents()
         },
         makeDetailElements:function(pokemon){
+            render.removingElements()
             const newElement = `
                 <div class="detailsContainer flexCenter">
                     <h2 class="detailTitle">${api.capatalize(pokemon.name)}</h2>
@@ -277,7 +273,6 @@
         },
         submitBtn: document.querySelector(".submit").addEventListener("click", async function(){
             const results = await api.getDataDetail(document.querySelector(".searching").value, true)
-            render.removingElements()
             console.log(results)
             render.makeDetailElements(results)
         }),

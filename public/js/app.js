@@ -1,8 +1,15 @@
 'use strict'
-import {getData} from "./helper/fetchAPI.js"
-// Export files zijn bij wijze van spreken gewoon IFFEs
+import {location} from "./router.js"
+import{getBgImage} from "./api.js"
+function init(){
+    location()
+}
+const states = {
+    overview: JSON.parse(localStorage.getItem("overview")),
+    details: JSON.parse(localStorage.getItem("details")),
+    currentDataset:[]
+}
 
-// let url = 'https://pokeapi.co/api/v2/pokemon'
-
-// console.log(getData())
-getData()
+init()
+getBgImage()
+export{states}
