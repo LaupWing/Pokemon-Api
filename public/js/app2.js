@@ -58,6 +58,7 @@
                 .then(pokemon=>render.makeDetailElements(pokemon))
         },
         localStorageCheck:function(storage, callbackStorageExist, callbackDoesntStorageExist){
+            console.log("Checking for the LocalStorage")
             if(storage){
                 console.log("LocalStorage exist")
                 callbackStorageExist()
@@ -71,6 +72,7 @@
 
     const app = { 
         init: function(){
+            console.log("%c Initializing site", "color:orange")
             router.location()
         },
         states:{

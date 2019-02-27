@@ -1,8 +1,10 @@
 'use strict'
+import {states} from "./app.js"
 import {capatalize} from "./api.js"
 import {addEvents} from "./events.js"
-
+const consoleStyling = "color:black; background:orange; padding:5px"
 function renderContainer(){
+    console.log("%c Rendering container", `${consoleStyling}`)
     const app = document.querySelector('#root');
     const container = document.createElement('div');
     container.classList.add("container");
@@ -11,6 +13,10 @@ function renderContainer(){
 
 function container(){
     return document.querySelector(".container")
+}
+
+function toggleLoader(){
+    document.querySelector(".loader").classList.toggle("visibility")
 }
 
 function removingElements(){
@@ -28,6 +34,7 @@ function removingElements(){
 
 function makeElements(array){
     removingElements()
+    states.currentDataset = array
     array.forEach(pokemon=>{
         const newElement = `
             <a href="#${pokemon.id}">
@@ -68,6 +75,7 @@ function noPokemonsFound(value){
         </div>
         `
     container().insertAdjacentHTML( 'beforeend', newElement )
-}  
+}
 
-export {noPokemonsFound, makeDetailElements, makeElements, renderContainer, container}
+
+export {noPokemonsFound, makeDetailElements, makeElements, renderContainer, container, toggleLoader}

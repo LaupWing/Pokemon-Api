@@ -1,9 +1,12 @@
 'use strict'
-import {makeElements} from "./render.js"
+import {makeElements, toggleLoader} from "./render.js"
 import {states} from "./app.js"
 const overviewUrl =  "https://pokeapi.co/api/v2/pokemon"
+const consoleStyling = "color:lime; background:black; padding: 5px"
 
-function getData(url = this.overviewUrl){
+function getData(url = overviewUrl){
+    console.log(url)
+    toggleLoader()
     return fetch(url)
         .then(data => data.json())
         .then(jsonData => jsonData.results)
@@ -21,22 +24,27 @@ function getData(url = this.overviewUrl){
         })
         .then(pokemons => {
             const pokemonArray = pokemons.map(pokemon => parseData(pokemon))
-            console.log(pokemonArray)
-            localStorage.setItem("overview", JSON.stringify(pokemonArray))
+            console.log(pokemonArray.length)
+            if(pokemonArray.length <=100){
+                console.log(pokemonArray)
+                localStorage.setItem("overview", JSON.stringify(pokemonArray)) 
+            }
+            toggleLoader()
             return pokemonArray
         })        
 }
 
 function getDataDetail(pokemon, storage){
+    console.log(pokemon, storage)
     return fetch (`${overviewUrl}/${pokemon}`)
         .then((response)=>{ 
             if(response.status === 404){
-                render.noPokemonsFound(pokemon)
+                noPokemonsFound(pokemon)
             }
             return response.json()
         })
         .then(jsonData => {
-            console.log("Saving it in localstorage= ", storage)
+            console.log("%c Saving it in localstorage= "+ storage, `${consoleStyling}`)
             if(storage){
                 const array = (states.details) ? states.details : [];
                 array.push(jsonData)  
@@ -54,7 +62,6 @@ function getBgImage(){
 }
 
 function parseData(item){
-    checkImageAvailability(item.sprites.back_default)
     return {
         name: capatalize(item.name),
         id: item.id,
@@ -84,27 +91,33 @@ function capatalize(word){
 }
 
 function randomPokemons(){
+    toggleLoader()
+    console.log("Random pokemons are generating")
     const randomNumbers =[]
     for (let index = 0; index < 20; index++) {
         const random = Math.floor(Math.random()*802)+1
         randomNumbers.push(random)
     }
-    const results = randomNumbers.map(random=>getDataDetail(random, false))
+    const results = randomNumbers.map(random=>getDataDetail(random, false))     
     Promise.all(results)
         .then(pokemon=>{
+            toggleLoader()
             const randomPokemonArray = pokemon.map(pokemon=>this.parseData(pokemon))
-            render.makeElements(randomPokemonArray)
+            makeElements(randomPokemonArray)
         })
 }
 
 function betweenNumberPokemons(min, max){
+    toggleLoader()
     const promiseArray = []
-    for (let index = min; index < max; index++) {
+    for (let index = min; index <= max; index++) {
         promiseArray.push(getDataDetail(index, false))
     }
+    
     Promise.all(promiseArray)
         .then(pokemons=>{
             const array = pokemons.map(pokemon=>parseData(pokemon))
+            toggleLoader()
             makeElements(array)
         })
 }

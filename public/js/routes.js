@@ -2,51 +2,64 @@
 import {states} from "./app.js"
 import{getData, getDataDetail} from "./api.js"
 import {makeDetailElements, makeElements} from "./render.js"
+import {toggleAddOnScroll} from "./events.js"
+const consoleStyling = "color: black; background: yellow; padding: 5px"
 
+// On reload (lading of the page) check what the route is (detail or overview)
+function landingpage(){
+    if(window.location.hash === ""){
+        console.log("%c Overview landingpage", `${consoleStyling}`)
+        toggleAddOnScroll()
+        overviewLocalStorageCheck()
+    }else{
+        console.log("%c Detail landingpage", `${consoleStyling}`)
+        toggleAddOnScroll()
+        detailLocalStorageCheck()
+    }
+}
+
+// Checking if the localstorage of the overview exist
 function overviewLocalStorageCheck(){
     localStorageCheck(states.overview, overviewLocalstorage, overviewFetch)
 }
 
+// The Localstorage check function
 function localStorageCheck(storage, callbackStorageExist,callbackDoesntStorageExist){
     if(storage){
-        console.log("LocalStorage exist")
+        console.log("%c LocalStorage exist", `${consoleStyling}`)
         callbackStorageExist()
     }else{
-        console.log("LocalStorage doesn't exist")
+        console.log("%c LocalStorage doesn't exist", `${consoleStyling}`)
         callbackDoesntStorageExist()
     }
 }
+
+// Fetching details of pokemon
 function detailFetch(){
-    console.log("Fetchig detail data")
+    console.log("%c Fetchig detail data", `${consoleStyling}`)
     let id = window.location.hash.substr(1)
     getDataDetail(id, true)
         .then(pokemon=>makeDetailElements(pokemon))
 }
 
-function landingpage(){
-    if(window.location.hash === ""){
-        console.log("Overview landingpage")
-        overviewLocalStorageCheck()
-    }else{
-        console.log("Detail landingpage")
-        detailLocalStorageCheck()
-    }
-}
+// Check in localstorag for the details array 
 function detailLocalStorageCheck(){
     localStorageCheck(states.details, detailLocalstorage, detailFetch)
 }
+
+// Render detailpage from the localstorage 
 function detailLocalstorage(){
     const array = states.details
-    console.log("Checking if pokemon ID excist in the LocalStorage...")
+    console.log("%c Checking if pokemon ID excist in the LocalStorage...", `${consoleStyling}`)
     const pokemonDetail = array.find(function(pokemon){
         return pokemon.id === Number(window.location.hash.substr(1))
     })
-    console.log(pokemonDetail)
+    // Checking for id in the detail localstorage
     if(pokemonDetail){
-        console.log("Id is available")
+        console.log("%c Id is available", `${consoleStyling}`)
         makeDetailElements(pokemonDetail)
     }else{
-        console.log("No id in the array")
+        console.log("%c No id in the array", `${consoleStyling}`)
         detailFetch()
     }
     array.forEach(pokemon=>{
@@ -54,16 +67,19 @@ function detailLocalstorage(){
     })
 }
 
+// Render overviewpage from the localstorage
 function overviewLocalstorage(){
-    console.log("Overview by localhost, LocalStorage exist")
+    console.log("%c Overview by localhost, LocalStorage exist", `${consoleStyling}`)
     const array = states.overview
+    states.currentDataset = array
     makeElements(array)
 }
 
+// 
 async function overviewFetch(){
-    console.log("Overview by fetching, LocalStorage doesn't exist")
+    console.log("%c Overview by fetching, LocalStorage doesn't exist", `${consoleStyling}`)
     const data = await getData()
-    .makeElements(data)
+    makeElements(data)
 }
 
 export {landingpage}
