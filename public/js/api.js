@@ -102,7 +102,7 @@ function randomPokemons(){
     Promise.all(results)
         .then(pokemon=>{
             toggleLoader()
-            const randomPokemonArray = pokemon.map(pokemon=>this.parseData(pokemon))
+            const randomPokemonArray = pokemon.map(pokemon=>parseData(pokemon))
             makeElements(randomPokemonArray)
         })
 }

@@ -34,12 +34,13 @@ submitBtn.addEventListener("click", async function(){
 
 const randomizeBtn = document.querySelector(".random")
 randomizeBtn.addEventListener("click", async function(){
+        window.location.hash = "#random"
         randomPokemons()
 })
 
 const inputValue = document.querySelector(".submitRange")
 inputValue.addEventListener("click", function(){
-        window.location.href = `${window.location.href}#idSearch`
+        window.location.hash = "#idSearch"
         toggleAddOnScroll()
         const minValue = Number(document.querySelector(".minNumber").value)
         const maxValue = Number(document.querySelector(".maxNumber").value)
@@ -70,9 +71,6 @@ function checkLimit(min, max, action){
 }
 
 // when scroll to bottom add 20 more pokemons
-console.log(window.location.hash)
-
-
 function addOnScroll(){
     console.log("checking")
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-1) {

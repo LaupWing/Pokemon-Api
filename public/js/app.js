@@ -16,5 +16,5 @@ document.body.addEventListener("click",function(){
     console.log(states.currentDataset)
 })
 init()
-getBgImage()
+// getBgImage()
 export{states}

@@ -76,6 +76,19 @@ a{
     transform: scale(1.05);
     background: rgba(255,255,255,.95);
 }
+span.idNumber{
+    color: red;
+}
+span.type{
+    font-size: .8em;
+    width: 70px;
+    padding: 5px 0;
+    border-radius: 10px;
+    color: white;
+    font-weight: 400;
+    margin-left: 10px;
+    display: inline-block;
+}
 img.mainImage{
     width: 100px;
 }
@@ -106,6 +119,67 @@ h2{
     width: 100%;
     padding: 10px;
 }
+
+/* Pokemon Type Colors */
+.bug{
+    background: #88960E;
+}
+.electric{
+    background: #F9B716;
+}
+.fire{
+    background: #C72000;
+}
+.grass{
+    background: #8BCD54;
+}
+.normal{
+    background: #C4BFB6;
+}
+.rock{
+    background: #B49C51;
+}
+.dark{
+    background: #4A4A49;
+}
+.fairy{
+    background: #E9A4E9;
+}
+.flying{
+    background: #7E8FDC;
+}
+.ground{
+    background: #D3B357;
+}
+.poison{
+    background: #7E377F;
+}
+.steel{
+    background: #9494A5;
+}
+.dragon{
+    background: #7E68E6;
+}
+.fighting{
+    background: #662A19;
+}
+.ghost{
+    background: #5F5FB0;
+}
+.ice{
+    background: #86DCF8;
+}
+.psychic{
+    background: #CB3A6B;
+}
+.water{
+    background: #2180E0;
+}
+
+
+
+
+
 
 /* Filter styling */
 .range{

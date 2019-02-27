@@ -71,7 +71,6 @@ function detailLocalstorage(){
 function overviewLocalstorage(){
     console.log("%c Overview by localhost, LocalStorage exist", `${consoleStyling}`)
     const array = states.overview
-    states.currentDataset = array
     makeElements(array)
 }
 

@@ -39,7 +39,7 @@ function makeElements(array){
         const newElement = `
             <a href="#${pokemon.id}">
                 <div class="pokemon flexCenter">
-                    <h2>${pokemon.name}</h2>
+                    <h2><span class="idNumber">#${pokemon.id}</span> ${pokemon.name}<span class="type ${pokemon.type[0]}">${pokemon.type[0]}</span> </h2>
                     <img class="mainImage" src="${pokemon.defaultFront}"></img>
                     <div class="allImages">
                         <img src="${pokemon.defaultFront}">
