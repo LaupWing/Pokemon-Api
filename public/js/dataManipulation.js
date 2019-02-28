@@ -1,12 +1,30 @@
 import {states} from "./app.js"
-// const jwz = states.currentDataset
-// console.log(states.currentDataset)
-function sortByFirstLetter(){
+import {makeElements} from "./render.js"
+
+function sortData(value, first,last){
     states.currentDataset.sort((a,b)=>{
-        if(a.name < b.name) { return -1; }
-        if(a.name > b.name) { return 1; }
+        if(a[value] < b[value]) { return first; }
+        if(a[value] > b[value]) { return last; }
         return 0;
     })
-    // console.log(states.currentDataset)
+    storeData(value)
+    makeElements(states.currentDataset)
 }
-export {sortByFirstLetter}
+function storeData(value){
+    if(value === "name"){
+        states.sortByName = states.currentDataset
+    }else{
+        states.sortById = currentDataset
+    }
+}
+
+function filterData(value){
+    const filtererd = states.currentDataset.filter(typeFilter)
+    function typeFilter(obj){
+        return obj.type[0] === value
+    }
+    states.filterType = filtererd
+    states.currentDataset = filtererd
+    makeElements(filtererd)
+}
+export {sortData, filterData}

@@ -1,7 +1,8 @@
 'use strict'
 import {container, makeDetailElements, makeElements} from "./render.js"
 import {getData, randomPokemons, betweenNumberPokemons, getDataDetail} from "./api.js"
-import {sortByFirstLetter} from "./dataManipulation.js"
+import {sortData, filterData} from "./dataManipulation.js"
+
 const consoleStyling = "color:yellow; background:blue; padding:5px"
 let searchAmount = 20
 function addEvents(){
@@ -45,8 +46,47 @@ inputValue.addEventListener("click", function(){
         const maxValue = Number(document.querySelector(".maxNumber").value)
         checkLimit(minValue, maxValue, betweenNumberPokemons)
 })
+
 const sortByLetter = document.querySelector(".name")
 sortByLetter.addEventListener("change", sortByFirstLetter)
+// Kan de functie hieronder niet in een aparte modules stoppen omdat die states niet kan zien en geen parameter kan doorgeven
+function sortByFirstLetter(){
+    window.location.hash = "#sortByName"
+    if(sortByLetter.value === "AtoZ"){
+        sortData("name",-1,1)
+    }else{
+        sortData("name",1,-1)
+    }
+}
+
+// Attempt to make a settings object to make the function modulair and dynamic
+// {
+//     condition: sortByLetter.value === "AtoZ",
+//     callbackIf: sortDataName(-1,1),
+//     callbackElse: sortDataName(1,-1)
+// }
+
+const idNumber = document.querySelector(".idNumber")
+idNumber.addEventListener("change",sortDataById)
+function sortDataById(){
+    window.location.hash = "#sortById"
+    const value = idNumber.value
+    if(value === "HigherFirst"){
+        sortData("id",1,-1)
+    }else{
+        sortData("id",-1,1)
+    }
+}
+
+const filterType = document.querySelector(".filterType")
+filterType.addEventListener("change", filterByType)
+
+function filterByType(){
+    window.location.hash = "#filterType"
+    const value = filterType.value
+    filterData(value)
+}
+
 
 // Limit of the fetch request for the search between two id's 
 function checkLimit(min, max, action){

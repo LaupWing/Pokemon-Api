@@ -103,6 +103,7 @@ function randomPokemons(){
         .then(pokemon=>{
             toggleLoader()
             const randomPokemonArray = pokemon.map(pokemon=>parseData(pokemon))
+            states.random = randomPokemonArray
             makeElements(randomPokemonArray)
         })
 }
@@ -118,6 +119,7 @@ function betweenNumberPokemons(min, max){
         .then(pokemons=>{
             const array = pokemons.map(pokemon=>parseData(pokemon))
             toggleLoader()
+            states.idSearch = array
             makeElements(array)
         })
 }
