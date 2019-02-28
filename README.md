@@ -8,6 +8,11 @@ This website has been made with as base the pokemon api. [Click here to see the 
 
 ## Table of contents
 1. [Live demo](#1-Demo)
+2. [Installation](#2-Installation)
+3. [What can you do?](#3-What-can-you-do?)
+4. [Actor Diagram](#4-Actor-Diagram)
+5. [Interaction Diagram](#5-Interaction-Diagram)
+6. [To-do-list](#6-To-do-list)
 
 ## 1. Demo
 Click on the link to see a demo of the site
@@ -29,14 +34,14 @@ Options
 * Sort by Id
 * Sort by Name
 
-## Actor Diagram 
+## 4. Actor Diagram 
 Legend
 ![legend](https://github.com/LaupWing/Pokemon-Api/blob/master/images/legend.png)
 
 The main flow the website
 ![actor diagram](https://github.com/LaupWing/Pokemon-Api/blob/master/images/Acto.png)
 
-## Interaction Diagrams
+## 5. Interaction Diagrams
 Legend
 ![legend](https://github.com/LaupWing/Pokemon-Api/blob/master/images/legend.png)
 
@@ -46,6 +51,7 @@ The flow of a pageload
 The flow of a hashchange 
 ![hashchange diagram](https://github.com/LaupWing/Pokemon-Api/blob/master/images/Hashchange.png)
 
+## 6. To-do-list
 Best practices for this project
  - [x] States toepassen.
  - [ ] Error page maken (feedback)
