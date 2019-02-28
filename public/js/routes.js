@@ -7,13 +7,22 @@ const consoleStyling = "color: black; background: yellow; padding: 5px"
 // On reload (lading of the page) check what the route is (detail or overview)
 function landingpage(){
     toggleAddOnScroll()
+    const hashVal = window.location.hash.slice(1)
+
     if(window.location.hash === ""){
         console.log("%c Overview landingpage", `${consoleStyling}`)
         overviewLocalStorageCheck()
-    }else{
+    }else if(isNumeric(hashVal)){
         console.log("%c Detail landingpage", `${consoleStyling}`)
         detailLocalStorageCheck()
+    }else{
+        console.log("%c Load to overviewpage", `${consoleStyling}`)
+        window.location.hash = ""
     }
+}
+
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 // Checking if the localstorage of the overview exist

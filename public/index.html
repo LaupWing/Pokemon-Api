@@ -10,54 +10,56 @@
 </head>
 <body class="flexCenter">
     <h1>Just another Pokemon API</h1>
-    <div class="filter">
-        <div class="loader">
-            <img src="./assets/loading.gif" alt="">
-        </div>
-        <input class="searching" type="text">
-        <button class="submit">Submit</button>
-        <button class="random">Randomize</button>
-        <div class="range">
-            <div class="min">
-               <input class="minNumber" type="number">
+    <div class="tools">
+        <div class="filter">
+            <div class="loader">
+                <img src="./assets/loading.gif" alt="">
             </div>
-            <div class="max">
-                <input class="maxNumber" type="number">
+            <input class="searching" type="text">
+            <button class="submit">Submit</button>
+            <button class="random">Randomize</button>
+            <div class="range">
+                <div class="min">
+                   <input class="minNumber" type="number">
+                </div>
+                <div class="max">
+                    <input class="maxNumber" type="number">
+                </div>
+                <button class="submitRange">Submit</button>
             </div>
-            <button class="submitRange">Submit</button>
         </div>
-    </div>
-    <div class="sortBy">
-            <select class="name">
-                <option value="None">None</option>
-                <option value="AtoZ">A-Z</option>
-                <option value="ZtoA">Z-A</option>
-            </select>
-            <select class="idNumber">
-                <option value="LowerFirst">Lowest First</option>
-                <option value="HigherFirst">Highest First</option>
-            </select>
-            <select class="filterType">
-                    <option value="none">None</option>
-                    <option value="normal">normal</option>
-                    <option value="fighting">fighting</option>
-                    <option value="flying">flying</option>
-                    <option value="poison">poison</option>
-                    <option value="ground">ground</option>
-                    <option value="rock">rock</option>
-                    <option value="bug">bug</option>
-                    <option value="ghost">ghost</option>
-                    <option value="steel">steel</option>
-                    <option value="fire">fire</option>
-                    <option value="water">water</option>
-                    <option value="grass">grass</option>
-                    <option value="electric">electric</option>
-                    <option value="psychic">psychic</option>
-                    <option value="ice">ice</option>
-                    <option value="dragon">dragon</option>
-                    <option value="dark">dark</option>
-                    <option value="fairy">fairy</option>
-            </select>
+        <div class="sortBy">
+                <select class="name">
+                    <option value="None">None</option>
+                    <option value="AtoZ">A-Z</option>
+                    <option value="ZtoA">Z-A</option>
+                </select>
+                <select class="idNumber">
+                    <option value="LowerFirst">Lowest First</option>
+                    <option value="HigherFirst">Highest First</option>
+                </select>
+                <select class="filterType">
+                        <option value="none">None</option>
+                        <option value="normal">normal</option>
+                        <option value="fighting">fighting</option>
+                        <option value="flying">flying</option>
+                        <option value="poison">poison</option>
+                        <option value="ground">ground</option>
+                        <option value="rock">rock</option>
+                        <option value="bug">bug</option>
+                        <option value="ghost">ghost</option>
+                        <option value="steel">steel</option>
+                        <option value="fire">fire</option>
+                        <option value="water">water</option>
+                        <option value="grass">grass</option>
+                        <option value="electric">electric</option>
+                        <option value="psychic">psychic</option>
+                        <option value="ice">ice</option>
+                        <option value="dragon">dragon</option>
+                        <option value="dark">dark</option>
+                        <option value="fairy">fairy</option>
+                </select>
+        </div>
     </div>
     <div id="root"></div>
     <script src="./js/app.js" type="module"></script>

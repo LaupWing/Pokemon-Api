@@ -27,9 +27,9 @@ window.addEventListener("hashchange", function(){
             makeElements(states.filterType)
             break;
         }
-
         return 
     }
+    
     landingpage()
 })
 export {location}

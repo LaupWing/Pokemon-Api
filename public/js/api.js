@@ -1,5 +1,5 @@
 'use strict'
-import {makeElements, toggleLoader} from "./render.js"
+import {makeElements, toggleLoader, noPokemonsFound} from "./render.js"
 import {states} from "./app.js"
 const overviewUrl =  "https://pokeapi.co/api/v2/pokemon"
 const consoleStyling = "color:lime; background:black; padding: 5px"
@@ -93,7 +93,7 @@ function capatalize(word){
 
 function randomPokemons(){
     toggleLoader()
-    console.log("Random pokemons are generating")
+    console.log("%c Random pokemons are generating", `${consoleStyling}`)
     const randomNumbers =[]
     for (let index = 0; index < 20; index++) {
         const random = Math.floor(Math.random()*802)+1

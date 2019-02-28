@@ -42,6 +42,9 @@ a{
 .visibility{
     display: block;
 }
+.invisible{
+    display: none;
+}
 /* Diffrent styles of flex styles */
 .flexCenter{
     display: flex;
@@ -103,14 +106,6 @@ img.mainImage{
 .allImages > img{
     width: 50px;
     cursor: pointer;
-}
-.detailsContainer{
-    position: relative;
-    color: white;
-    background: white;
-    width: 400px;
-    height: 400px;
-    margin:50px auto;   
 }
 h2{
     position: absolute;
@@ -192,12 +187,21 @@ h2{
 }
 
 /* Detail page */
+.detailsContainer{
+    position: relative;
+    background: rgba(255,255,255,.6);
+    width: 400px;
+    height: 400px;
+    margin:50px auto;   
+}
 h2.detailTitle{
     width: 100%;
-    background: rgba(0,0,0,.5);
+    color:white;
+    background: rgba(0,0,0,.8);
 }
 .detail_mainImage{
     width: 150px;
+    animation: upAndDown 1s infinite;
 }
 
 .hoverAnimation{
