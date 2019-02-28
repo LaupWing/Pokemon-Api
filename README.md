@@ -37,8 +37,12 @@ The main flow the website
 ![actor diagram](https://github.com/LaupWing/Pokemon-Api/blob/master/images/Acto.png)
 
 ## Interaction Diagrams
+<details>
+<summary>
 Legend
+</summary>
 ![legend](https://github.com/LaupWing/Pokemon-Api/blob/master/images/legend.png)
+</details>
 
 The flow of a pageload
 ![onload diagram](https://github.com/LaupWing/Pokemon-Api/blob/master/images/Pageload.png)
