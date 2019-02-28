@@ -1,10 +1,9 @@
 'use strict'
 import {container, makeDetailElements, makeElements} from "./render.js"
 import {getData, randomPokemons, betweenNumberPokemons, getDataDetail} from "./api.js"
+import {sortByFirstLetter} from "./dataManipulation.js"
 const consoleStyling = "color:yellow; background:blue; padding:5px"
 let searchAmount = 20
-
-
 function addEvents(){
     console.log("%c Adding events", `${consoleStyling}`)
     container().querySelectorAll(".pokemon").forEach((i)=>{
@@ -46,7 +45,8 @@ inputValue.addEventListener("click", function(){
         const maxValue = Number(document.querySelector(".maxNumber").value)
         checkLimit(minValue, maxValue, betweenNumberPokemons)
 })
-
+const sortByLetter = document.querySelector(".name")
+sortByLetter.addEventListener("change", sortByFirstLetter)
 
 // Limit of the fetch request for the search between two id's 
 function checkLimit(min, max, action){

@@ -4,7 +4,6 @@ import{getData, getDataDetail} from "./api.js"
 import {makeDetailElements, makeElements} from "./render.js"
 import {toggleAddOnScroll} from "./events.js"
 const consoleStyling = "color: black; background: yellow; padding: 5px"
-
 // On reload (lading of the page) check what the route is (detail or overview)
 function landingpage(){
     if(window.location.hash === ""){

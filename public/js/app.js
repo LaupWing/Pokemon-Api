@@ -12,9 +12,9 @@ const states = {
     details: JSON.parse(localStorage.getItem("details")),
     currentDataset:[]
 }
-document.body.addEventListener("click",function(){
-    console.log(states.currentDataset)
-})
+// document.body.addEventListener("click",function(){
+//     console.log(states.currentDataset)
+// })
 init()
 // getBgImage()
 export{states}

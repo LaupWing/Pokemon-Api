@@ -13,12 +13,12 @@ window.addEventListener("hashchange", function(){
     }
     landingpage()
 })
-setInterval(()=>{
-    // console.log(window.location.hash)
-    if(window.location.hash === "#idSearch" || window.location.hash === "#random"){
-        console.log("niet uitgevoerd")
-    }else{
-        console.log("Landing page uitgevoerd+") 
-    }
-},1000)
+// setInterval(()=>{
+//     // console.log(window.location.hash)
+//     if(window.location.hash === "#idSearch" || window.location.hash === "#random"){
+//         console.log("niet uitgevoerd")
+//     }else{
+//         console.log("Landing page uitgevoerd+") 
+//     }
+// },1000)
 export {location}
