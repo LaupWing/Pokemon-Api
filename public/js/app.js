@@ -23,5 +23,5 @@ const states = {
 //     console.log(states.currentDataset)
 // })
 init()
-// getBgImage()
+getBgImage()
 export{states}

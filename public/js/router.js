@@ -2,14 +2,14 @@
 import {renderContainer, makeElements} from './render.js'
 import {landingpage} from './routes.js'
 import {states} from "./app.js"
-import { filterData } from './dataManipulation.js';
-
+import {toggleAddOnScroll} from "./events.js"
 function location(){
     renderContainer()
     landingpage()
 }
 window.addEventListener("hashchange", function(){
     if(window.location.hash === "#idSearch" || window.location.hash === "#random" || window.location.hash === "#sortById" || window.location.hash === "#sortByName" || window.location.hash === "#filterType"){
+        toggleAddOnScroll()
         switch(window.location.hash){
             case "#idSearch":
             makeElements(states.idSearch)
@@ -32,12 +32,4 @@ window.addEventListener("hashchange", function(){
     }
     landingpage()
 })
-// setInterval(()=>{
-//     // console.log(window.location.hash)
-//     if(window.location.hash === "#idSearch" || window.location.hash === "#random"){
-//         console.log("niet uitgevoerd")
-//     }else{
-//         console.log("Landing page uitgevoerd+") 
-//     }
-// },1000)
 export {location}

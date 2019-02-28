@@ -55,6 +55,7 @@ function getDataDetail(pokemon, storage){
 }
 
 function getBgImage(){
+    document.body.style.background = `url("https://media.giphy.com/media/11FuEnXyGsXFba/giphy.gif")`
     fetch("https://source.unsplash.com/1600x900?nature")
         .then(response=>{
             document.body.style.background =`url(${response.url})`

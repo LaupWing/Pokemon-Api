@@ -6,13 +6,12 @@ import {toggleAddOnScroll} from "./events.js"
 const consoleStyling = "color: black; background: yellow; padding: 5px"
 // On reload (lading of the page) check what the route is (detail or overview)
 function landingpage(){
+    toggleAddOnScroll()
     if(window.location.hash === ""){
         console.log("%c Overview landingpage", `${consoleStyling}`)
-        toggleAddOnScroll()
         overviewLocalStorageCheck()
     }else{
         console.log("%c Detail landingpage", `${consoleStyling}`)
-        toggleAddOnScroll()
         detailLocalStorageCheck()
     }
 }

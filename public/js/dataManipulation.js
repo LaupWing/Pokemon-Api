@@ -14,7 +14,7 @@ function storeData(value){
     if(value === "name"){
         states.sortByName = states.currentDataset
     }else{
-        states.sortById = currentDataset
+        states.sortById = states.currentDataset
     }
 }
 

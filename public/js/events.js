@@ -112,7 +112,6 @@ function checkLimit(min, max, action){
 
 // when scroll to bottom add 20 more pokemons
 function addOnScroll(){
-    console.log("checking")
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight-1) {
         searchAmount+=20
         getData(`https://pokeapi.co/api/v2/pokemon?limit=${searchAmount}`)
@@ -122,10 +121,10 @@ function addOnScroll(){
 
 function toggleAddOnScroll(){
     if(window.location.hash===""){
-        console.log("Scroll event active")
+        console.log("%c Scroll event active", `${consoleStyling}`)
         window.addEventListener("scroll", addOnScroll)
     }else{
-        console.log("Scroll event inactive")
+        console.log("%c Scroll event inactive", `${consoleStyling}`)
         window.removeEventListener("scroll", addOnScroll)
     }
 }
