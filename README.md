@@ -52,6 +52,17 @@ The flow of a hashchange
 ![hashchange diagram](https://github.com/LaupWing/Pokemon-Api/blob/master/images/Hashchange.png)
 
 ## 6. To-do-list
-Best practices for this project
- - [x] States toepassen.
- - [ ] Error page maken (feedback)
+ - [x] States.
+ - [x] Get Data from Api
+ - [x] Parse Data(Clean the data)
+ - [x] Make Elements from data
+ - [x] Error Message
+ - [x] Search Function
+ - [x] SortBy Function
+ - [x] Filter Function
+ - [x] Animations
+ - [x] Actor Diagram
+ - [x] Hashchange Diagram (Interaction)
+ - [ ] Filter Diagram (Interaction)
+ - [ ] Sortby Diagram (Interaction)
+ - [ ] Filter Data at Detail page bug
